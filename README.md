@@ -25,7 +25,7 @@ Styling was done with tailwindcss, with responsiveness in mind.
 2. Create a virtual env with python ```python -m venv .venv```
 3. Activate the virtual env ```.venv\Scripts\Activate```
 4. Install the required packages ```pip install Flask flask-mysqldb```
-5. Configure database connection in __init__.py
+5. Configure database connection in __init__.py and execute the intranet.sql file in a database viewer (WIP)
 6. Run flask ```flask --app __init__ run```
 7. Navigate to http://localhost:5000/
 8. Enjoy :)
