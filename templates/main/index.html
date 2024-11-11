@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Intranet{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center pt-3 pb-1 border-b border-i-link-light w-[85%] mx-auto" style="font-size: 20px; font-weight:600;">Welcome, {{ g.user[5] }}</h1>
+<div class="flex justify-center items-center min-h-[85vh]">
+    <div class="w-[90vw] mx-auto">
+        <div class="grid sm:grid-cols-2 grid-col-1 gap-4 mt-4 sm:mt-0">
+            <div class="h-[350px] w-full max-w-[650px] mx-auto border rounded-md border-i-link-light">
+                <div class="h-[50px] bg-[#fff] border-b rounded-t-md border-i-link-light flex items-center"> <!-- Header -->
+                    <p class="text-i-header pl-2" style="font-size: 20px; font-weight:600;">Information</p>
+                </div>
+                <div class=""> <!-- Content -->
+
+                </div>
+            </div>
+            <div class="h-[350px] w-full max-w-[650px] mx-auto border rounded-md border-i-link-light">
+                <div class="h-[50px] bg-[#fff] border-b rounded-t-md border-i-link-light flex items-center"> <!-- Header -->
+                    <p class="text-i-header pl-2" style="font-size: 20px; font-weight:600;">Information</p>
+                </div>
+                <div class=""> <!-- Content -->
+
+                </div>
+            </div> 
+            <div class="h-[350px] w-full max-w-[650px] mx-auto border rounded-md border-i-link-light">
+                <div class="h-[50px] bg-[#fff] border-b rounded-t-md border-i-link-light flex items-center"> <!-- Header -->
+                    <p class="text-i-header pl-2" style="font-size: 20px; font-weight:600;">Information</p>
+                </div>
+                <div class=""> <!-- Content -->
+
+                </div>
+            </div>
+            <div class="h-[350px] w-full max-w-[650px] mx-auto border rounded-md border-i-link-light">
+                <div class="h-[50px] bg-[#fff] border-b rounded-t-md border-i-link-light flex items-center"> <!-- Header -->
+                    <p class="text-i-header pl-2" style="font-size: 20px; font-weight:600;">Information</p>
+                </div>
+                <div class=""> <!-- Content -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-i-bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ url_for('static', filename='output.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='fonts.css') }}" rel="stylesheet">
+    <title>Intranet - Activate</title>
+</head>
+<body>
+    <div class="flex justify-center items-start h-[80vh] mt-[20vh]">
+        <div class="w-auto">
+          <div class="text-center">
+            <h1 class="text-i-header font-display inter-600 border-b border-i-header" style="font-size: 24px;">Intranet</h1>
+            <div class="mt-4">
+                <label class="inter-600 text-i-link block">Ask to Activate</label>
+                <label class="inter-100 text-i-link block">Your account is currently pending approval.</label>
+                <label class="inter-100 text-i-link block">Request assistance from a site administrator to approve your account.</label>
+                <button onclick="location.href='{{url_for('auth.login')}}';" class="w-3/4 mt-2 py-2 rounded-md bg-i-blue hover:bg-i-blue-hover text-i-bg inter-600 cursor-pointer transition ease-in-out duration-500">Return to login</button>
+            </div>
+        </div>
+      </div>
+      
+</body>
+</html>

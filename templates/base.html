@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}{% endblock %} | Intranet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='fonts.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='output.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      function toggleMenu() {
+        document.getElementById("nav-linksR").classList.toggle("hidden");
+      }
+    </script>
+</head>
+
+<body>
+    <nav class="w-full sm:p-4 bg-[#FFF] border-b border-i-link-light font-semibold text-sm p-2">
+        <div class="flex justify-between items-center">
+        <!-- Hamburger Icon -->
+            <div class="sm:hidden">
+                <button onclick="toggleMenu()" class="text-i-link hover:text-i-blue transition duration-150">
+                    <span class="material-symbols">menu</span>
+                </button>
+            </div>
+
+            <!-- Navbar Links - Hidden on small screens, displayed on larger screens -->
+            <div id="nav-links" class="hidden sm:flex sm:space-x-3 items-center">
+                <a href="{{ url_for('mainview.index')}}" {% if request.path == url_for('mainview.index') %} class="text-i-blue" {% endif %} class="text-i-link items-center hover:text-i-blue transition ease-in-out duration-50">
+                    <span class="material-symbols">home</span>Home
+                </a>
+                {% if g.user %}
+                    {% if g.user[4] == 'SUPPORT' or g.user[4] == 'ADMIN' %}
+                        <a href="{{ url_for('support.support')}}" {% if request.path == url_for('support.support') %} class="text-i-blue" {% endif %} class="text-i-link hover:text-i-blue transition duration-50">
+                            <span class="material-symbols">description</span>Support
+                        </a>
+                    {% endif %}
+                    {% if g.user[4] == 'TANK' or g.user[4] == 'ADMIN' %}
+                        <a href="{{ url_for('tanks.tanks')}}" {% if request.path == url_for('tanks.tanks') %} class="text-i-blue" {% endif %} class="text-i-link hover:text-i-blue transition duration-50">
+                            <span class="material-symbols">description</span>Iso-Tanks
+                        </a>
+                    {% endif %}
+                    {% if g.user[4] == 'GENERAL' or g.user[4] == 'ADMIN' %}
+                        <a href="{{ url_for('general.general')}}" {% if request.path == url_for('general.general') %} class="text-i-blue" {% endif %} class="text-i-link hover:text-i-blue transition duration-50">
+                            <span class="material-symbols">description</span>General Freight
+                        </a>
+                    {% endif %}
+                    {% if g.user[4] == 'SALES' or g.user[4] == 'ADMIN' %}
+                        <a href="{{ url_for('sales.sales')}}" {% if request.path == url_for('sales.sales') %} class="text-i-blue" {% endif %} class="text-i-link hover:text-i-blue transition duration-50">
+                            <span class="material-symbols">description</span>Sales
+                        </a>
+                    {% endif %}
+                {% endif %}
+            </div>
+
+            <!-- Right-Side Icons - Displayed on larger screens -->
+            <div class="hidden sm:flex space-x-4 items-center">
+                <ul class="flex space-x-4">
+                    {% if g.user %}
+                        {% if g.user[4] == 'ADMIN' %}
+                            <li>
+                                <a href="{{ url_for('mainview.admin') }}" {% if request.path == url_for('mainview.admin') %} class="text-i-blue" {% endif %} class="text-i-link hover:text-i-blue transition duration-50">
+                                    <span class="material-symbols" title="Admin Center">shield_person</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                        <li>
+                            <a href="{{ url_for('auth.logout') }}" {% if request.path == url_for('auth.logout') %} class="text-i-blue" {% endif %} class="text-i-link hover:text-i-blue transition duration-50">
+                                <span class="material-symbols" title="Logout">power_settings_new</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Links - Only visible when toggled -->
+        <div id="nav-linksR" class="sm:hidden hidden ">
+            <div class="flex flex-col mt-2 space-y-2">
+                <a href="{{ url_for('mainview.index')}}" {% if request.path == url_for('mainview.index') %} class="text-i-blue" {% endif %} class="text-i-link items-center hover:text-i-blue transition ease-in-out duration-50">
+                    <span class="material-symbols">home</span>Home
+                </a>
+                {% if g.user %}
+                    {% if g.user[4] == 'SUPPORT' or g.user[4] == 'ADMIN' %}
+                        <a href="{{ url_for('support.support')}}" {% if request.path == url_for('support.support') %} class="text-i-blue" {% endif %} class="text-i-link hover:text-i-blue transition duration-50">
+                            <span class="material-symbols">description</span>Support
+                        </a>
+                    {% endif %}
+                    {% if g.user[4] == 'TANK' or g.user[4] == 'ADMIN' %}
+                        <a href="{{ url_for('tanks.tanks')}}" {% if request.path == url_for('tanks.tanks') %} class="text-i-blue" {% endif %} class="text-i-link hover:text-i-blue transition duration-50">
+                            <span class="material-symbols">description</span>Iso-Tanks
+                        </a>
+                    {% endif %}
+                    {% if g.user[4] == 'GENERAL' or g.user[4] == 'ADMIN' %}
+                        <a href="{{ url_for('general.general')}}" {% if request.path == url_for('general.general') %} class="text-i-blue" {% endif %} class="text-i-link hover:text-i-blue transition duration-50">
+                            <span class="material-symbols">description</span>General Freight
+                        </a>
+                    {% endif %}
+                    {% if g.user[4] == 'SALES' or g.user[4] == 'ADMIN' %}
+                        <a href="{{ url_for('sales.sales')}}" {% if request.path == url_for('sales.sales') %} class="text-i-blue" {% endif %} class="text-i-link hover:text-i-blue transition duration-50">
+                            <span class="material-symbols">description</span>Sales
+                        </a>
+                    {% endif %}
+                {% endif %}
+            </div>
+            <ul class="mt-2 space-y-2">
+                {% if g.user %}
+                    {% if g.user[4] == 'ADMIN' %}
+                        <li>
+                            <a href="{{ url_for('mainview.admin') }}" {% if request.path == url_for('mainview.admin') %} class="text-i-blue" {% endif %} class="text-i-link hover:text-i-blue transition duration-50">
+                                <span class="material-symbols" title="Admin Center">shield_person</span>Admin
+                            </a>
+                        </li>
+                    {% endif %}
+                    <li>
+                        <a href="{{ url_for('auth.logout') }}" {% if request.path == url_for('auth.logout') %} class="text-i-blue" {% endif %} class="text-i-link hover:text-i-blue transition duration-50">
+                            <span class="material-symbols" title="Logout">power_settings_new</span>Logout
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <section class="content">
+        {% for message in get_flashed_messages() %}
+            <div class="flash">{{ message }}</div>
+        {% endfor %}
+        {% block content %}{% endblock %}
+    </section>
+</body>
+</html>

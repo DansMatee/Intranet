@@ -1,0 +1,88 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <form method="post">
+    <input type="hidden" name="form_type" value="register">
+    <label for="username">Username</label>
+    <input name="username" id="username" required>
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" required>
+    <label for="repeatpassword">Repeat Password</label>
+    <input type="password" name="repeatpassword" id="repeatpassword" required>
+    <label for="firstname">First Name</label>
+    <input name="firstname" id="firstname" required>
+    <label for="lastname">Last Name</label>
+    <input name="lastname" id="lastname" required>
+    <label for="email">Email Address</label>
+    <input name="email" id="email" required>
+    <input type="submit" value="Register">
+  </form>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en" class="bg-i-bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ url_for('static', filename='fonts.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='output.css') }}" rel="stylesheet">
+    <title>Intranet - Register</title>
+</head>
+<body>
+    <div class="flex justify-center items-start h-[80vh] mt-[20vh]">
+        <div class="w-auto">
+          <div class="text-center">
+            <h1 class="text-i-header font-display inter-600 border-b border-i-header" style="font-size: 24px;">Intranet</h1>
+            <form method="post">
+              <input type="hidden" name="form_type" value="register"><br>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <div class="mb-4">
+                    <label for="username" class="inter-600 text-i-link block text-left">Username</label>
+                    <input type="text" class="inter-500 border-i-link-light text-i-link py-2 px-2 rounded-md border placeholder:text-i-link-light focus:outline-none focus:border-i-link transition ease-in-out duration-500" style="font-size: 12px; width: 300px;" name="username" id="username" placeholder="Enter Username" required><br>
+                  </div>
+          
+                  <div class="mb-4">
+                    <label for="password" class="inter-600 text-i-link block text-left">Password</label>
+                    <input type="password" class="inter-500 border-i-link-light text-i-link py-2 px-2 rounded-md border placeholder:text-i-link-light focus:outline-none focus:border-i-link transition ease-in-out duration-500" style="font-size: 12px; width: 300px;" name="password" id="password" placeholder="Enter Password" required><br>
+                  </div>
+
+                  <div class="mb-4">
+                    <label for="repeatpassword" class="inter-600 text-i-link block text-left">Repeat Password</label>
+                    <input type="password" class="inter-500 border-i-link-light text-i-link py-2 px-2 rounded-md border placeholder:text-i-link-light focus:outline-none focus:border-i-link transition ease-in-out duration-500" style="font-size: 12px; width: 300px;" name="repeatpassword" id="repeatpassword" placeholder="Enter Password Again" required><br>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="mb-4">
+                    <label for="firstname" class="inter-600 text-i-link block text-left">First Name</label>
+                    <input type="text" class="inter-500 border-i-link-light text-i-link py-2 px-2 rounded-md border placeholder:text-i-link-light focus:outline-none focus:border-i-link transition ease-in-out duration-500" style="font-size: 12px; width: 300px;" name="firstname" id="firstname" placeholder="Enter First Name" required><br>
+                  </div>
+
+                  <div class="mb-4">
+                    <label for="lastname" class="inter-600 text-i-link block text-left">Last Name</label>
+                    <input type="text" class="inter-500 border-i-link-light text-i-link py-2 px-2 rounded-md border placeholder:text-i-link-light focus:outline-none focus:border-i-link transition ease-in-out duration-500" style="font-size: 12px; width: 300px;" name="lastname" id="lastname" placeholder="Enter Last Name" required><br>
+                  </div>
+
+                  <div class="mb-4">
+                    <label for="email" class="inter-600 text-i-link block text-left">Email</label>
+                    <input type="text" class="inter-500 border-i-link-light text-i-link py-2 px-2 rounded-md border placeholder:text-i-link-light focus:outline-none focus:border-i-link transition ease-in-out duration-500" style="font-size: 12px; width: 300px;" name="email" id="email" placeholder="Enter Email" required><br>
+                  </div>
+                </div>
+              </div>
+      
+              <input type="submit" value="Register" class="w-3/4 py-2 rounded-md bg-i-blue hover:bg-i-blue-hover text-i-bg inter-600 cursor-pointer transition ease-in-out duration-500">
+            </form>
+            <a href="{{url_for('auth.login')}}" class="inter-400 mt-6 hover:text-i-link-light text-i-link cursor-pointer transition ease-in-out duration-500" style="font-size: 14px;">Already have an account? Login here.</a>
+          </div>
+        </div>
+      </div>
+      
+</body>
+</html>

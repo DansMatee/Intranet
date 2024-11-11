@@ -1,0 +1,891 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Gen Freight{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center pt-3 pb-1 border-b border-i-link-light w-[85%] mx-auto" style="font-size: 20px; font-weight:600;">General Freight</h1>
+<div class="flex justify-center items-center min-h-[85vh]">
+    <div class="w-[90vw] mx-auto">
+        <!-- Add Link Modal -->
+        <div id="addLinkModal" class="fixed inset-0 flex justify-center items-center hidden z-50">
+            <div class="bg-[#fafafa] rounded-md border border-[#CFCFCF] shadow-2xl p-6 w-1/3">
+                <h2 class="text-lg font-semibold text-i-header border-b" id="addLinkModalTitle">Modal Title</h2>
+                <p id="addLinkModalContent" class="mt-2 text-i-link">This is the content of the modal window.</p>
+                <div class="mt-4 flex justify-end">
+                    <button id="closeAddLinkModal" class="bg-[#F3F3F3] border border-i-link-light hover:bg-[#ebe9e9] transition-all ease px-4 py-2 rounded mr-2 text-i-link">Close</button>
+                    <button id="saveAddLinkModal" class="bg-[#F3F3F3] border border-i-link-light hover:bg-[#ebe9e9] transition-all ease px-4 py-2 rounded mr-2 text-i-link">Add</button>
+                </div>
+            </div>
+        </div>
+        <!-- Edit Link Modal -->
+        <div id="editLinkModal" class="fixed inset-0 flex justify-center items-center hidden z-50">
+            <div class="bg-[#fafafa] rounded-md border border-[#CFCFCF] shadow-2xl p-6 w-1/3">
+                <h2 class="text-lg font-semibold text-i-header border-b" id="editLinkModalTitle">Modal Title</h2>
+                <p id="editLinkModalContent" class="mt-2 text-i-link">This is the content of the modal window.</p>
+                <div class="mt-4 flex justify-end">
+                    <button id="closeEditLinkModal" class="bg-[#F3F3F3] border border-i-link-light hover:bg-[#ebe9e9] transition-all ease px-4 py-2 rounded mr-2 text-i-link">Close</button>
+                    <button id="saveEditLinkModal" class="bg-[#F3F3F3] border border-i-link-light hover:bg-[#ebe9e9] transition-all ease px-4 py-2 rounded mr-2 text-i-link">Save</button>
+                    {% if g.user[4] == 'ADMIN' or g.user[8] == 'GENERAL' and g.user[8] == 1 %}
+                        <button id="deleteEditLinkModal" class="bg-[#F3F3F3] border border-i-link-light hover:bg-[#ebe9e9] transition-all ease px-4 py-2 rounded mr-2 text-i-link">Archive</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <!-- Add Job Attention Modal -->
+        <div id="addJobModal" class="fixed inset-0 flex justify-center items-center hidden z-50">
+            <div class="bg-[#fafafa] rounded-md border border-[#CFCFCF] shadow-2xl p-6 w-1/3">
+                <h2 class="text-lg font-semibold text-i-header border-b" id="addJobModalTitle">Modal Title</h2>
+                <p id="addJobModalContent" class="mt-2 text-i-link">This is the content of the modal window.</p>
+                <div class="mt-4 flex justify-end">
+                    <button id="closeAddJobModal" class="bg-[#F3F3F3] border border-i-link-light hover:bg-[#ebe9e9] transition-all ease px-4 py-2 rounded mr-2 text-i-link">Close</button>
+                    <button id="saveAddJobModal" class="bg-[#F3F3F3] border border-i-link-light hover:bg-[#ebe9e9] transition-all ease px-4 py-2 rounded mr-2 text-i-link">Add</button>
+                </div>
+            </div>
+        </div>
+        <!-- View Job Attention Modal -->
+        <div id="viewJobModal" class="fixed inset-0 flex justify-center items-center hidden z-50">
+            <div class="bg-[#fafafa] rounded-md border border-[#CFCFCF] shadow-2xl p-6 w-1/3">
+                <h2 class="text-lg font-semibold text-i-header border-b" id="viewJobModalTitle">Modal Title</h2>
+                <p id="viewJobModalContent" class="mt-2 text-i-link">This is the content of the modal window.</p>
+                <div class="mt-4 flex justify-end">
+                    <button id="closeViewJobModal" class="bg-[#F3F3F3] border border-i-link-light hover:bg-[#ebe9e9] transition-all ease px-4 py-2 rounded mr-2 text-i-link">Close</button>
+                    <button id="saveViewJobModal" class="bg-[#F3F3F3] border border-i-link-light hover:bg-[#ebe9e9] transition-all ease px-4 py-2 rounded mr-2 text-i-link">Save</button>
+                    {% if g.user[4] == 'ADMIN' or g.user[8] == 'GENERAL' and g.user[8] == 1 %}
+                        <button id="archiveViewJobModal" class="bg-[#F3F3F3] border border-i-link-light hover:bg-[#ebe9e9] transition-all ease px-4 py-2 rounded mr-2 text-i-link">Archive</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <!-- Add Notice Modal -->
+        <div id="addNoticeModal" class="fixed inset-0 flex justify-center items-center hidden z-50">
+            <div class="bg-[#fafafa] rounded-md border border-[#CFCFCF] shadow-2xl p-6 w-1/3">
+                <h2 class="text-lg font-semibold text-i-header border-b" id="addNoticeModalTitle">Modal Title</h2>
+                <p id="addNoticeModalContent" class="mt-2 text-i-link">This is the content of the modal window.</p>
+                <div class="mt-4 flex justify-end">
+                    <button id="closeAddNoticeModal" class="bg-[#F3F3F3] border border-i-link-light hover:bg-[#ebe9e9] transition-all ease px-4 py-2 rounded mr-2 text-i-link">Close</button>
+                    <button id="saveAddNoticeModal" class="bg-[#F3F3F3] border border-i-link-light hover:bg-[#ebe9e9] transition-all ease px-4 py-2 rounded mr-2 text-i-link">Add</button>
+                </div>
+            </div>
+        </div>
+        <!-- View Notice Modal -->
+        <div id="viewNoticeModal" class="fixed inset-0 flex justify-center items-center hidden z-50">
+            <div class="bg-[#fafafa] rounded-md border border-[#CFCFCF] shadow-2xl p-6 w-1/3">
+                <h2 class="text-lg font-semibold text-i-header border-b" id="viewNoticeModalTitle">Modal Title</h2>
+                <p id="viewNoticeModalContent" class="mt-2 text-i-link">This is the content of the modal window.</p>
+                <div id="viewNoticeModalButtons" class="mt-4 flex justify-end">
+                    <button id="closeViewNoticeModal" class="bg-[#F3F3F3] border border-i-link-light hover:bg-[#ebe9e9] transition-all ease px-4 py-2 rounded mr-2 text-i-link">Close</button>
+                    {% if g.user[4] == 'ADMIN' or g.user[8] == 'GENERAL' and g.user[8] == 1 %}
+                        <button id="archiveViewNoticeModal" class="bg-[#F3F3F3] border border-i-link-light hover:bg-[#ebe9e9] transition-all ease px-4 py-2 rounded mr-2 text-i-link">Archive</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="grid sm:grid-cols-2 grid-col-1 gap-4 mt-4 sm:mt-0">
+            <div class="h-[350px] w-full max-w-[650px] mx-auto border rounded-md border-i-link-light">
+                <div class="h-[50px] bg-[#fff] border-b rounded-t-md border-i-link-light flex items-center justify-between"> <!-- Header -->
+                    <p class="text-i-header pl-2" style="font-size: 20px; font-weight:600;">Quick Links</p>
+                    <button onclick="openAddLinkModal('general-1')" class="pr-2"><span class="material-symbols text-i-link hover:text-i-blue transition ease-in-out duration-50" title="Add Link" style="font-size: 32px; font-weight: 600;">add</span></button>
+                </div>
+                <div id="table1" class="overflow-auto h-[calc(350px-50px)] min-w-full">
+                    <table class="w-full bg-white border-separate border-spacing-0 rounded-md sortable-table">
+                        <thead class="bg-i-bg" style="font-size: 14px;">
+                            <tr>
+                                <th class="py-1 px-4 text-left text-i-link border-r border-b border-[#CFCFCF]">Quick Link</th>
+                                <th class="py-1 px-4 text-left text-i-link border-r border-b border-[#CFCFCF]">Employee</th>
+                                <th class="py-1 px-4 text-left text-i-link border-b border-[#CFCFCF] cursor-pointer select-none" onclick="sortTableByColumn('table1', 2)">
+                                    <span>Last Updated</span>
+                                    <span class="sort-icon">&#9650;</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size: 12px;">
+                            {% for link in general_1_links %}
+                                {% if not link.archived %}
+                                    <tr class="hover:bg-gray-100 border-b border-[#CFCFCF] text-i-link cascade" style="font-size: 12px; animation-delay: {{ loop.index * 0.05 }}s;">
+                                        <td class="py-1 px-4 border-r border-b border-[#CFCFCF] flex justify-between">
+                                            <a href='{{ link.link_dest }}' style="color: #0000008C; text-decoration: underline;" title='{{ link.link_dest }}'>{{ link.link_name }}</a>
+                                            {% if g.user[0] == link.employee_id or g.user[4] == 'ADMIN' %}
+                                                <button onclick="openEditLinkModal('{{link.id}}', '{{link.link_name}}', '{{link.link_dest}}')"><span class="material-symbols text-i-link hover:text-i-blue transition ease-in-out duration-50" style="font-size: 14px; font-weight: 400;" title="Edit">edit</span></button>
+                                            {% endif %}
+                                        </td>
+                                        <td class="py-1 px-4 border-r border-b border-[#CFCFCF]">{{ link.firstname + " " + link.lastname }}</td>
+                                        <td class="py-1 px-4 border-b border-[#CFCFCF]">{{ link.formatted_timestamp }}</td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="h-[350px] w-full max-w-[650px] mx-auto border rounded-md border-i-link-light">
+                <div class="h-[50px] bg-[#fff] border-b rounded-t-md border-i-link-light flex items-center justify-between"> <!-- Header -->
+                    <p class="text-i-header pl-2" style="font-size: 20px; font-weight:600;">Job Attention Board</p>
+                    <button onclick="openAddJobModal('general-2')" class="pr-2"><span class="material-symbols text-i-link hover:text-i-blue transition ease-in-out duration-50" title="Add Job" style="font-size: 32px; font-weight: 600;">add</span></button>
+                </div>
+                <div id="table2" class="overflow-auto h-[calc(350px-50px)] min-w-full">
+                    <table class="w-full bg-white border-separate border-spacing-0 rounded-md sortable-table">
+                        <thead class="bg-i-bg" style="font-size: 14px;">
+                            <tr>
+                                <th class="py-1 px-4 text-left text-i-link border-r border-b border-[#CFCFCF]">Job Number</th>
+                                <th data-table-id="table2" class="py-1 px-4 text-left text-i-link border-r border-b border-[#CFCFCF] cursor-pointer select-none" onclick="sortTableByColumn('table2', 1)">
+                                    <span>Severity</span>
+                                    <span class="sort-icon">&#9650;</span>
+                                </th>
+                                <th data-table-id="table2" class="py-1 px-4 text-left text-i-link border-b border-[#CFCFCF] cursor-pointer select-none" onclick="sortTableByColumn('table2', 2)">
+                                    <span>Last Updated</span>
+                                    <span class="sort-icon">&#9650;</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="job-table" style="font-size: 12px;">
+                            {% for job in general_2_jobs %}
+                                {% if not job.archived %}
+                                    <tr class="hover:bg-i-bg transition-all ease cursor-pointer border-b border-[#CFCFCF] text-i-link cascade" style="font-size: 12px; animation-delay: {{ loop.index * 0.05 }}s;" onclick="openViewJobModal('{{job.id}}', '{{job.job_number}}', '{{job.job_severity}}', '{{job.job_header}}', '{{job.job_desc}}', '{{job.firstname}}', '{{job.lastname}}', '{{job.formatted_timestamp}}', '{{job.table_id}}')">
+                                        <td class="py-1 px-4 border-r border-b border-[#CFCFCF]">
+                                            {{ job.job_number }}
+                                        </td>
+                                        <td class="py-1 px-4 border-r border-b border-[#CFCFCF]">
+                                            {% if job.job_severity == 'low' %}
+                                                <p class="border border-[#2fdd78] rounded-xl text-center bg-[#2fdd78] text-i-bg" style="font-weight: 600;">Low</p>
+                                            {% elif job.job_severity == 'medium' %}
+                                                <p class="border border-[#dda62f] rounded-xl text-center bg-[#dda62f] text-i-bg" style="font-weight: 600;">Medium</p>
+                                            {% elif job.job_severity == 'high' %}
+                                                <p class="border border-[#dd522f] rounded-xl text-center bg-[#dd522f] text-i-bg" style="font-weight: 600;">High</p>
+                                            {% elif job.job_severity == 'critical' %}
+                                                <p class="border border-[red] rounded-xl text-center bg-[red] text-i-bg" style="font-weight: 600;">Critical</p>
+                                            {% elif job.job_severity == 'resolved' %}
+                                                <p class="border border-[#6277f0] rounded-xl text-center bg-[#6277f0] text-i-bg" style="font-weight: 600;">Resolved</p>
+                                            {% endif %}
+                                        </td>
+                                        <td class="py-1 px-4 border-b border-[#CFCFCF]">{{ job.formatted_timestamp }}</td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div> 
+
+            <div class="h-[350px] w-full max-w-[650px] mx-auto border rounded-md border-i-link-light">
+                <div class="h-[50px] bg-[#fff] border-b rounded-t-md border-i-link-light flex items-center justify-between"> <!-- Header -->
+                    <p class="text-i-header pl-2" style="font-size: 20px; font-weight:600;">Notice Board</p>
+                    <button onclick="openAddNoticeModal('general-3')" class="pr-2"><span class="material-symbols text-i-link hover:text-i-blue transition ease-in-out duration-50" title="Add Notice" style="font-size: 32px; font-weight: 600;">add</span></button>
+                </div>
+                <div id="table3" class="overflow-auto h-[calc(350px-50px)] min-w-full">
+                    <table class="w-full bg-white border-separate border-spacing-0 rounded-md sortable-table">
+                        <thead class="bg-i-bg" style="font-size: 14px;">
+                            <tr>
+                                <th class="py-1 px-4 text-left text-i-link border-r border-b border-[#CFCFCF]">Header</th>
+                                <th class="py-1 px-4 text-left text-i-link border-b border-[#CFCFCF] cursor-pointer select-none" onclick="sortTableByColumn('table3', 1)">
+                                    <span>Last Updated</span>
+                                    <span class="sort-icon">&#9650;</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size: 12px;">
+                            {% for notice in general_3_notices %}
+                                {% if not notice.archived %}
+                                    <tr class="hover:bg-i-bg transition-all ease cursor-pointer border-b border-[#CFCFCF] text-i-link cascade" style="font-size: 12px; animation-delay: {{ loop.index * 0.05 }}s;" onclick="openViewNoticeModal('{{notice.id}}', '{{notice.notice_header}}', '{{notice.notice_desc}}', '{{notice.firstname}}', '{{notice.lastname}}', '{{notice.employee_id}}', '{{notice.formatted_timestamp}}', '{{notice.table_id}}', '{{g.user[0]}}')">
+                                        <td class="py-1 px-4 border-r border-b border-[#CFCFCF] flex justify-between">
+                                            <div>{{ notice.notice_header }}</div>
+                                        </td>
+                                        <td class="py-1 px-4 border-b border-[#CFCFCF]">{{ notice.formatted_timestamp }}</td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="h-[350px] w-full max-w-[650px] mx-auto border rounded-md border-i-link-light">
+                <div class="h-[50px] bg-[#fff] border-b rounded-t-md border-i-link-light flex items-center"> <!-- Header -->
+                    <p class="text-i-header pl-2" style="font-size: 20px; font-weight:600;">General Freight Overview</p>
+                </div>
+                <div class="h-[calc(350px-50px)] min-w-full grid grid-cols-2 gap-2 p-2">
+                    <div class="block w-full h-full overflow-hidden items-center justify-center" style="text-align:center;">
+                        <div class="border-b border-i-header text-i-header" style="font-weight: 600;">Job Attention Breakdown</div>
+                        <canvas class="w-4/5 h-4/5 mx-auto object-contain" id="severityPieChart"></canvas>
+                    </div>
+                    <div class="border-l border-i-link-light pl-2 block">
+                        <p class="border-b border-i-header text-i-header w-full mx-auto" style="font-weight: 600;">Staff Members</p>
+                            {% for member in members %}
+                                <div class="text-i-link cascade" style="font-weight: 600; animation-delay: {{ loop.index * 0.1 }}s;"><span class="material-symbols" style="font-size: 16px;">{% if member.departmentAdmin %}shield_person{% else %}person{% endif %}</span>{{member.firstname + " " + member.lastname}} {% if member.departmentAdmin %} - Admin {% endif %}</div>
+                            {% endfor %}
+                    </div>     
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+    // Add Link Modal
+    const addLinkModal = document.getElementById("addLinkModal");
+    const addLinkModalTitle = document.getElementById("addLinkModalTitle");
+    const addLinkModalContent = document.getElementById("addLinkModalContent");
+    const openAddLinkModalButton = document.getElementById("openAddLinkModal");
+    const closeAddLinkModalButton = document.getElementById("closeAddLinkModal");
+    const saveAddLinkModalButton = document.getElementById("saveAddLinkModal");
+
+    // Function to open the modal and populate it
+    window.openAddLinkModal = function(table_id) {
+        addLinkModalTitle.textContent = `Add New Link`; // Set modal title or adjust as needed
+        addLinkModalContent.innerHTML = `
+                <div class="ml-2 mb-3 block">
+                    <label for="linkName" class="block mb-1" style="font-weight: 500;">Link Name</label>
+                    <input type="text" class="autofill:bg-i-bg inter-500 border-i-link-light text-i-link py-2 px-2 rounded-md border placeholder:text-i-link-light focus:outline-none focus:border-i-link transition ease-in-out duration-500" style="font-size: 12px; width: 400px;" id="linkName" placeholder="My New Link">  
+                </div>
+                <div class="ml-2">
+                    <label for="linkDestination" class="block mb-1" style="font-weight: 500;">Link Destination</label>
+                    <input type="text" class="inter-500 border-i-link-light text-i-link py-2 px-2 rounded-md border placeholder:text-i-link-light focus:outline-none focus:border-i-link transition ease-in-out duration-500" style="font-size: 12px; width: 400px;" id="linkDestination" placeholder="https://www.google.com">          
+                </div>`; // Set modal content
+        addLinkModal.classList.remove("hidden"); // Show modal
+
+        const linkName = document.getElementById("linkName");
+        const linkDest = document.getElementById("linkDestination");
+
+        saveAddLinkModalButton.onclick = function () {
+            const nLinkName = linkName.value;
+            const nLinkDest = linkDest.value;
+
+            if (nLinkName !== '') {
+                if (nLinkDest !== '') {
+                    addLink(table_id, nLinkName, nLinkDest);
+                }
+            }
+        }
+    };
+
+    // Function to close the modal
+    closeAddLinkModalButton.onclick = function () {
+        addLinkModal.classList.add("hidden");
+    };
+
+    function addLink(tableId, linkName, linkDest) {
+        fetch(`/general/add_link`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ tableId: tableId, linkName: linkName, linkDest: linkDest })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            addLinkModal.classList.add("hidden");
+            location.reload();
+        })
+        .catch(error => {
+            alert('Failed to add link. Please try again.');
+        });
+    }
+
+    // Edit Link Modal
+    const editLinkModal = document.getElementById("editLinkModal");
+    const editLinkModalTitle = document.getElementById("editLinkModalTitle");
+    const editLinkModalContent = document.getElementById("editLinkModalContent");
+    const openEditLinkModalButton = document.getElementById("openEditLinkModal");
+    const closeEditLinkModalButton = document.getElementById("closeEditLinkModal");
+    const saveEditLinkModalButton = document.getElementById("saveEditLinkModal");
+    const deleteEditLinkModal = document.getElementById("deleteEditLinkModal");
+
+    // Function to open the modal and populate it
+    window.openEditLinkModal = function(link_id, link_name, link_dest) {
+        editLinkModalTitle.textContent = `Edit Link: ${link_id}`; // Set modal title or adjust as needed
+        editLinkModalContent.innerHTML = `
+                <div class="ml-2 mb-3 block">
+                    <label for="linkName" class="block mb-1" style="font-weight: 500;">Link Name</label>
+                    <input type="text" class="inter-500 border-i-link-light text-i-link py-2 px-2 rounded-md border placeholder:text-i-link-light focus:outline-none focus:border-i-link transition ease-in-out duration-500" style="font-size: 12px; width: 400px;" id="linkName" value='${link_name}'>  
+                </div>
+                <div class="ml-2">
+                    <label for="linkDestination" class="block mb-1" style="font-weight: 500;">Link Destination</label>
+                    <input type="text" class="inter-500 border-i-link-light text-i-link py-2 px-2 rounded-md border placeholder:text-i-link-light focus:outline-none focus:border-i-link transition ease-in-out duration-500" style="font-size: 12px; width: 400px;" id="linkDestination" value='${link_dest}'>          
+                </div>`; // Set modal content
+        editLinkModal.classList.remove("hidden"); // Show modal
+
+        const linkName = document.getElementById("linkName");
+        const linkDest = document.getElementById("linkDestination");
+
+        saveEditLinkModalButton.onclick = function () {
+            const nLinkName = linkName.value;
+            const nLinkDest = linkDest.value;
+
+            if (nLinkName !== '') {
+                if (nLinkDest !== '') {
+                    editLink(link_id, nLinkName, nLinkDest);
+                }
+            }
+        }
+
+        deleteEditLinkModal.onclick = function () {
+            archiveLink(link_id);
+        }
+    };
+
+    // Function to close the modal
+    closeEditLinkModalButton.onclick = function () {
+        editLinkModal.classList.add("hidden");
+    };
+
+    function editLink(linkId, linkName, linkDest) {
+        fetch(`/general/edit_link`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ linkId: linkId, linkName: linkName, linkDest: linkDest })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            editLinkModal.classList.add("hidden");
+            location.reload();
+        })
+        .catch(error => {
+            alert('Failed to edit link. Please try again.');
+        });
+    }
+
+    function archiveLink(linkId) {
+        fetch(`/general/archive_link`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ linkId: linkId })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            editLinkModal.classList.add("hidden");
+            location.reload();
+        })
+        .catch(error => {
+            alert('Failed to archive link. Please try again.');
+        });
+    }
+
+    // Add Job Modal
+    const addJobModal = document.getElementById("addJobModal");
+    const addJobModalTitle = document.getElementById("addJobModalTitle");
+    const addJobModalContent = document.getElementById("addJobModalContent");
+    const openAddJobModalButton = document.getElementById("openAddJobModal");
+    const closeAddJobModalButton = document.getElementById("closeAddJobModal");
+    const saveAddJobModalButton = document.getElementById("saveAddJobModal");
+
+    // Function to open the modal and populate it
+    window.openAddJobModal = function(table_id) {
+        addJobModalTitle.textContent = `Add New Job`; // Set modal title or adjust as needed
+        addJobModalContent.innerHTML = `
+                <div class="flex">
+                    <div class="ml-2 mb-3 block">
+                        <label for="jobNumber" class="block mb-1" style="font-weight: 500;">Job Number</label>
+                        <input type="text" class="autofill:bg-i-bg inter-500 border-i-link-light text-i-link py-1 px-2 rounded-md border placeholder:text-i-link-light focus:outline-none focus:border-i-link transition ease-in-out duration-500" style="font-size: 12px; width: 125px;" id="jobNumber" placeholder="S00012345">  
+                    </div>
+                    <div class="ml-2 mb-3 block">
+                        <label for="jobSeverity" class="block mb-1" style="font-weight: 500;">Job Severity</label>
+                        <select id="severityDropdown" class="border rounded-md border-i-link-light py-1 px-2 focus:outline-none focus:border-i-link transition ease-in-out duration-500" style="font-size: 12px; width: 125px;">
+                            <option value="low"}>Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                            <option value="critical">Critical</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="ml-2">
+                    <label for="jobHeader" class="block mb-1" style="font-weight: 500;">Job Header</label>
+                    <textarea rows="1" cols="50" style="width: 100%; resize: vertical; font-size: 12px;" class="text-i-link px-2 py-1 border rounded-md border-i-link-light focus:outline-none focus:border-i-link transition ease-in-out duration-500" id="jobHeader" placeholder="What's happening..."></textarea>          
+                </div>
+                <div class="ml-2">
+                    <label for="jobDescription" class="block mb-1" style="font-weight: 500;">Job Description</label>
+                    <textarea rows="5" cols="50" style="width: 100%; resize: vertical; font-size: 12px;" class="text-i-link px-2 py-1 border rounded-md border-i-link-light focus:outline-none focus:border-i-link transition ease-in-out duration-500" id="jobDescription" placeholder="What's happening..."></textarea>          
+                </div>`; // Set modal content
+        addJobModal.classList.remove("hidden"); // Show modal
+
+        const jobNumber = document.getElementById("jobNumber");
+        const severityDropdown = document.getElementById("severityDropdown");
+        const jobHeader = document.getElementById("jobHeader");
+        const jobDescription = document.getElementById("jobDescription");
+
+        saveAddJobModalButton.onclick = function () {
+            const nJobNumber = jobNumber.value;
+            const nSeverity = severityDropdown.value;
+            const nJobHeader = jobHeader.value;
+            const nJobDesc = jobDescription.value;
+
+            if (nJobNumber !== '' && nSeverity !== '' && nJobHeader !== '' && nJobDesc !== '') {
+                addJob(table_id, nJobNumber, nSeverity, nJobHeader, nJobDesc);
+            }
+        }
+
+        // Function to close the modal
+        closeAddJobModalButton.onclick = function () {
+            addJobModal.classList.add("hidden");
+        };
+    };
+
+    function addJob(tableId, jobNumber, severity, jobHeader, jobDesc) {
+        fetch(`/general/add_job`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ tableId: tableId, jobNumber: jobNumber, severity: severity, jobHeader: jobHeader, jobDesc: jobDesc })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            addJobModal.classList.add("hidden");
+            location.reload();
+        })
+        .catch(error => {
+            alert('Failed to add job. Please try again.');
+        });
+    }
+
+    // View Job Modal
+    const viewJobModal = document.getElementById("viewJobModal");
+    const viewJobModalTitle = document.getElementById("viewJobModalTitle");
+    const viewJobModalContent = document.getElementById("viewJobModalContent");
+    const openViewJobModalButton = document.getElementById("openViewJobModal");
+    const closeViewJobModalButton = document.getElementById("closeViewJobModal");
+    const saveViewJobModalButton = document.getElementById("saveViewJobModal");
+    const archiveViewJobModalButton = document.getElementById("archiveViewJobModal");
+
+    // Function to open the modal and populate it
+    window.openViewJobModal = function(jobId, jobNumber, jobSeverity, jobHeader, jobDescription, employeeFName, employeeLName, timestamp, tableId) {
+        viewJobModalTitle.textContent = `View Job: ${jobNumber}`; // Set modal title or adjust as needed
+        viewJobModalContent.innerHTML = `
+                <div class=" flex justify-between">
+                    <div class="ml-2 mb-3 block">
+                        <label for="jobNumber" class="block mb-1" style="font-weight: 500;">Job Number</label>
+                        <input type="text" readonly class="autofill:bg-i-bg inter-500 border-i-link-light text-i-link py-1 px-2 rounded-md border placeholder:text-i-link-light focus:outline-none focus:border-i-link transition ease-in-out duration-500" style="font-size: 12px; width: 125px;" id="jobNumber" value='${jobNumber}'>  
+                    </div>
+                    <div class="ml-2 mb-3 block">
+                        <label for="jobSeverity" class="block mb-1" style="font-weight: 500;">Job Severity</label>
+                        <select id="severityDropdown" class="border rounded-md border-i-link-light py-1 px-2 focus:outline-none focus:border-i-link transition ease-in-out duration-500" style="font-size: 12px; width: 125px;">
+                            <option value="low" ${jobSeverity === "low" ? "selected" : ""}>Low</option>
+                            <option value="medium" ${jobSeverity === "medium" ? "selected" : ""}>Medium</option>
+                            <option value="high" ${jobSeverity === "high" ? "selected" : ""}>High</option>
+                            <option value="critical" ${jobSeverity === "critical" ? "selected" : ""}>Critical</option>
+                            <option value="resolved" ${jobSeverity === "resolved" ? "selected" : ""}>Resolved</option>
+                        </select>
+                    </div>
+                    <div class="ml-2 mb-3 block">
+                        <label for="employeeName" class="block mb-1" style="font-weight: 500;">Created By</label>
+                        <input type="text" readonly class="autofill:bg-i-bg inter-500 border-i-link-light text-i-link py-1 px-2 rounded-md border placeholder:text-i-link-light focus:outline-none focus:border-i-link transition ease-in-out duration-500" style="font-size: 12px; width: 150px;" id="employeeName" value='${employeeFName + " " + employeeLName}'>  
+                    </div>
+                    <div class="ml-2 mb-3 block">
+                        <label for="lastUpdated" class="block mb-1" style="font-weight: 500;">Last Updated</label>
+                        <input type="text" readonly class="autofill:bg-i-bg inter-500 border-i-link-light text-i-link py-1 px-2 rounded-md border placeholder:text-i-link-light focus:outline-none focus:border-i-link transition ease-in-out duration-500" style="font-size: 12px; width: 150px;" id="lastUpdated" value='${timestamp}'>  
+                    </div>
+                </div>
+                <div class="ml-2">
+                    <label for="jobHeader" class="block mb-1" style="font-weight: 500;">Job Header</label>
+                    <textarea rows="1" cols="50" style="width: 100%; resize: vertical; font-size: 12px;" class="text-i-link px-2 py-1 border rounded-md border-i-link-light focus:outline-none focus:border-i-link transition ease-in-out duration-500" id="jobHeader">${jobHeader}</textarea>          
+                </div>
+                <div class="ml-2">
+                    <label for="jobDescription" class="block mb-1" style="font-weight: 500;">Job Description</label>
+                    <textarea rows="5" cols="50" style="width: 100%; resize: vertical; font-size: 12px;" class="text-i-link px-2 py-1 border rounded-md border-i-link-light focus:outline-none focus:border-i-link transition ease-in-out duration-500" id="jobDescription">${jobDescription}</textarea>          
+                </div>`; // Set modal content
+        viewJobModal.classList.remove("hidden"); // Show modal
+
+        saveViewJobModalButton.onclick = function () {
+            const nSeverity = document.getElementById("severityDropdown").value;
+            const nJobDesc = document.getElementById("jobDescription").value;
+            const nHeader = document.getElementById("jobHeader").value;
+
+            if (nHeader !== '' && nJobDesc !== '') {
+                editJob(jobId, nSeverity, nHeader, nJobDesc);
+            }
+        }
+
+        // Function to close the modal
+        closeViewJobModalButton.onclick = function () {
+            viewJobModal.classList.add("hidden");
+        };
+
+        // Function to archive the modal
+        archiveViewJobModalButton.onclick = function () {
+            archiveJob(jobId, tableId);
+        }
+    };
+
+    function editJob(jobId, severity, jobHeader, jobDesc) {
+        fetch(`/general/edit_job`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ jobId: jobId, severity: severity, jobHeader: jobHeader, jobDesc: jobDesc })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            viewJobModal.classList.add("hidden");
+            location.reload();
+        })
+        .catch(error => {
+            alert('Failed to edit job. Please try again.');
+        });
+    }
+
+    function archiveJob(jobId, tableId) {
+        fetch(`/general/archive_job`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ jobId: jobId, tableId: tableId })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            viewJobModal.classList.add("hidden");
+            location.reload();
+        })
+        .catch(error => {
+            alert('Failed to archive job. Please try again.');
+        });
+    }
+
+
+    // Add Notice Modal
+    const addNoticeModal = document.getElementById("addNoticeModal");
+    const addNoticeModalTitle = document.getElementById("addNoticeModalTitle");
+    const addNoticeModalContent = document.getElementById("addNoticeModalContent");
+    const openAddNoticeModalButton = document.getElementById("openAddNoticeModal");
+    const closeAddNoticeModalButton = document.getElementById("closeAddNoticeModal");
+    const saveAddNoticeModalButton = document.getElementById("saveAddNoticeModal");
+
+    // Function to open the modal and populate it
+    window.openAddNoticeModal = function(table_id) {
+        addNoticeModalTitle.textContent = `Add New Notice`; // Set modal title or adjust as needed
+        addNoticeModalContent.innerHTML = `
+                <div class="ml-2 mb-3 block">
+                    <label for="noticeHeader" class="block mb-1" style="font-weight: 500;">Notice Header</label>
+                    <input type="text" class="autofill:bg-i-bg inter-500 border-i-link-light text-i-link py-2 px-2 rounded-md border placeholder:text-i-link-light focus:outline-none focus:border-i-link transition ease-in-out duration-500" style="font-size: 12px; width: 400px;" id="noticeHeader" placeholder="Notice Header..">  
+                </div>
+                <div class="ml-2">
+                    <label for="noticeDesc" class="block mb-1" style="font-weight: 500;">Notice Description</label>
+                    <textarea rows="5" cols="50" style="width: 100%; resize: vertical; font-size: 12px;" class="text-i-link px-2 py-1 border rounded-md border-i-link-light focus:outline-none focus:border-i-link transition ease-in-out duration-500" id="noticeDesc" placeholder="Notice Description..."></textarea>          
+                </div>`; // Set modal content
+        addNoticeModal.classList.remove("hidden"); // Show modal
+
+        const nHeader = document.getElementById("noticeHeader");
+        const nDesc = document.getElementById("noticeDesc");
+
+        saveAddNoticeModalButton.onclick = function () {
+            const nNoticeHeader = nHeader.value;
+            const nNoticeDesc = nDesc.value;
+
+            if (nNoticeHeader !== '' && nNoticeDesc !== '') {
+                addNotice(table_id, nNoticeHeader, nNoticeDesc);
+            }
+        }
+    };
+
+    // Function to close the modal
+    closeAddNoticeModalButton.onclick = function () {
+        addNoticeModal.classList.add("hidden");
+    };
+
+    function addNotice(tableId, noticeHeader, noticeDesc) {
+        fetch(`/general/add_notice`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ tableId: tableId, noticeHeader: noticeHeader, noticeDesc: noticeDesc })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            addLinkModal.classList.add("hidden");
+            location.reload();
+        })
+        .catch(error => {
+            alert('Failed to add notice. Please try again.');
+        });
+    }
+
+
+    // View Notice Modal
+    const viewNoticeModal = document.getElementById("viewNoticeModal");
+    const viewNoticeModalTitle = document.getElementById("viewNoticeModalTitle");
+    const viewNoticeModalContent = document.getElementById("viewNoticeModalContent");
+    const openViewNoticeModalButton = document.getElementById("openViewNoticeModal");
+    const closeViewNoticeModalButton = document.getElementById("closeViewNoticeModal");
+    const archiveViewNoticeModalButton = document.getElementById("archiveViewNoticeModal");
+    const viewNoticeModalButtons = document.getElementById("viewNoticeModalButtons");
+
+    //<button id="saveViewNoticeModal" class="bg-[#F3F3F3] border border-i-link-light hover:bg-[#ebe9e9] transition-all ease px-4 py-2 rounded mr-2 text-i-link">Save</button>
+
+    // Function to open the modal and populate it
+    window.openViewNoticeModal = function(noticeId, noticeHeader, noticeDescription, employeeFName, employeeLName, employee_id, timestamp, tableId, curUser) {
+        viewNoticeModalTitle.textContent = `View Notice: ${noticeId}`; // Set modal title or adjust as needed
+        viewNoticeModalContent.innerHTML = `
+                <div class=" flex justify-between">
+                    <div class="ml-2 mb-3 block">
+                        <label for="employeeName" class="block mb-1" style="font-weight: 500;">Created By</label>
+                        <input type="text" readonly class="autofill:bg-i-bg inter-500 border-i-link-light text-i-link py-1 px-2 rounded-md border placeholder:text-i-link-light focus:outline-none focus:border-i-link transition ease-in-out duration-500" style="font-size: 12px; width: 150px;" id="employeeName" value='${employeeFName + " " + employeeLName}'>  
+                    </div>
+                    <div class="ml-2 mb-3 block">
+                        <label for="lastUpdated" class="block mb-1" style="font-weight: 500;">Last Updated</label>
+                        <input type="text" readonly class="autofill:bg-i-bg inter-500 border-i-link-light text-i-link py-1 px-2 rounded-md border placeholder:text-i-link-light focus:outline-none focus:border-i-link transition ease-in-out duration-500" style="font-size: 12px; width: 150px;" id="lastUpdated" value='${timestamp}'>  
+                    </div>
+                </div>
+                <div class="ml-2">
+                    <label for="noticeHeader" class="block mb-1" style="font-weight: 500;">Notice Header</label>
+                    <textarea rows="1" ${employee_id === curUser ? "" : "readonly"} cols="50" style="width: 100%; resize: vertical; font-size: 12px;" class="text-i-link px-2 py-1 border rounded-md border-i-link-light focus:outline-none focus:border-i-link transition ease-in-out duration-500" id="noticeHeader">${noticeHeader}</textarea>          
+                </div>
+                <div class="ml-2">
+                    <label for="jobDescription" class="block mb-1" style="font-weight: 500;">Job Description</label>
+                    <textarea rows="5" ${employee_id === curUser ? "" : "readonly"} cols="50" style="width: 100%; resize: vertical; font-size: 12px;" class="text-i-link px-2 py-1 border rounded-md border-i-link-light focus:outline-none focus:border-i-link transition ease-in-out duration-500" id="noticeDescription">${noticeDescription}</textarea>          
+                </div>`; // Set modal content
+        viewNoticeModal.classList.remove("hidden"); // Show modal
+        
+        if (!document.getElementById('saveViewNoticeModalButton')) {
+            if (employee_id == curUser) {
+                const saveViewNoticeModalButton = document.createElement('button');
+                saveViewNoticeModalButton.id = 'saveViewNoticeModalButton';
+                saveViewNoticeModalButton.textContent = 'Save';
+                saveViewNoticeModalButton.className = "bg-[#F3F3F3] border border-i-link-light hover:bg-[#ebe9e9] transition-all ease px-4 py-2 rounded mr-2 text-i-link";
+                viewNoticeModalButtons.insertBefore(saveViewNoticeModalButton, archiveViewNoticeModalButton);
+    
+                saveViewNoticeModalButton.onclick = function () {
+                    const nHeader = document.getElementById("noticeHeader").value;
+                    const nDesc = document.getElementById("noticeDescription").value;
+        
+                    if (nHeader !== '' && nDesc !== '') {
+                        editJob(noticeId, nHeader, nDesc);
+                    }
+                }
+            }
+        }   
+
+        // Function to close the modal
+        closeViewNoticeModalButton.onclick = function () {
+            viewNoticeModal.classList.add("hidden");
+        };
+
+        // Function to archive the modal
+        archiveViewNoticeModalButton.onclick = function () {
+            archiveNotice(noticeId, tableId);
+        }
+    };
+
+    function editNotice(noticeId, noticeHeader, noticeDesc) {
+        fetch(`/general/edit_notice`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ noticeId: noticeId, noticeHeader: noticeHeader, noticeDesc: noticeDesc })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            viewJobModal.classList.add("hidden");
+            location.reload();
+        })
+        .catch(error => {
+            alert('Failed to edit notice. Please try again.');
+        });
+    }
+
+    function archiveNotice(noticeId, tableId) {
+        fetch(`/general/archive_notice`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ noticeId: noticeId, tableId: tableId })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            viewNoticeModal.classList.add("hidden");
+            location.reload();
+        })
+        .catch(error => {
+            alert('Failed to archive notice. Please try again.');
+        });
+    }
+
+
+
+
+    let sortDirections = {};  // Track sort directions per table and column
+
+    window.sortTableByColumn = function(tableId, columnIndex) {
+        const table = document.getElementById(tableId).querySelector("table.sortable-table");
+        const rowsArray = Array.from(table.querySelectorAll("tbody tr"));
+
+        // Toggle the sorting direction
+        if (!sortDirections[tableId]) sortDirections[tableId] = {};
+        sortDirections[tableId][columnIndex] = !sortDirections[tableId][columnIndex];
+
+        // Determine the sorting function based on the column type
+        const compareFn = (rowA, rowB) => {
+            let cellA = rowA.children[columnIndex].textContent.trim();
+            let cellB = rowB.children[columnIndex].textContent.trim();
+
+            // Adjust for date sorting if needed
+            if (columnIndex === 2) {
+                cellA = new Date(cellA.split('/').reverse().join('-'));
+                cellB = new Date(cellB.split('/').reverse().join('-'));
+            }
+
+            // Adjust for severity if needed
+            if (columnIndex === 1) {
+                const severityOrder = { 'Low': 1, 'Medium': 2, 'High': 3, 'Critical': 4 };
+                cellA = severityOrder[cellA] || 0;
+                cellB = severityOrder[cellB] || 0;
+            }
+
+            return sortDirections[tableId][columnIndex]
+                ? cellA > cellB ? 1 : -1
+                : cellA < cellB ? 1 : -1;
+        };
+
+        // Sort rows and append them back to the table body
+        rowsArray.sort(compareFn);
+        rowsArray.forEach(row => table.querySelector("tbody").appendChild(row));
+
+        // Update header icon to indicate sort direction
+        const headers = table.querySelectorAll("th");
+        headers.forEach((header, idx) => {
+            header.classList.remove("sorted-asc", "sorted-desc");
+            if (idx === columnIndex) {
+                header.classList.add(sortDirections[tableId][columnIndex] ? "sorted-asc" : "sorted-desc");
+            }
+        });
+    }
+
+    fetch('/general/get_severities')
+        .then(response => response.json())
+            .then(data => {
+                // Convert the object into an array of [label, value] pairs
+                const fetchedEntries = Object.entries(data);
+                
+                const severityOrder = {
+                    'low': 0,
+                    'medium': 1,
+                    'high': 2,
+                    'critical': 3,
+                    'resolved': 4
+                };
+
+                const severityColors = {
+                    'low': '#2fdd78',           // Green
+                    'medium': '#dda62f',        // Yellow
+                    'high': '#dd522f',          // Light Red
+                    'critical': '#FF0000',      // Red
+                    'resolved': '#6277f0'       // Gray
+                };
+
+                // Normalize the entries (trim and lower case)
+                let entries = fetchedEntries.map(item => [item[0].trim().toLowerCase(), item[1]]);
+
+                // Prepare data for the chart
+                const chartData = {
+                    labels: [],
+                    datasets: [{
+                        data: [],
+                        backgroundColor: [],
+                        borderColor: '#00000026', // Example border color
+                        borderWidth: 1
+                    }]
+                };
+
+                // Populate the data and color arrays
+                for (const [severity, count] of entries) {
+                    if (severityColors[severity]) {
+                        // Ensure chartData.labels is correctly defined
+                        const capitalizedSeverity = severity.charAt(0).toUpperCase() + severity.slice(1);
+                        chartData.labels.push(capitalizedSeverity); // Push to the labels array
+                        chartData.datasets[0].data.push(count); // Push the count to the data array
+                        chartData.datasets[0].backgroundColor.push(severityColors[severity]); // Add the color for this severity
+                    }
+                }
+
+                // Use 'data' to render your pie chart
+                const ctx = document.getElementById('severityPieChart').getContext('2d');
+
+                // Initialize the pie chart
+                const myPieChart = new Chart(ctx, {
+                    type: 'pie', // Specify the chart type
+                    data: chartData,  // Use the data prepared earlier
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        aspectRatio: 1,
+                        layout: {
+                            padding: 10
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                enabled: true,
+                                displayColors: false,
+                                callbacks: {
+                                    title: function() {
+                                        return '';
+                                    },
+                                    label: function(tooltipItem) {
+                                        return tooltipItem.label.charAt(0).toUpperCase() + tooltipItem.label.slice(1) + ": " + tooltipItem.raw; // Custom tooltip
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+});
+</script> 
+{% endblock %}

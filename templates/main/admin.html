@@ -1,0 +1,374 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Admin{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<div class="flex justify-center items-center min-h-[90vh]">
+    <div class="w-[90vw] mx-auto">
+        <!-- Log Modal Structure -->
+        <div id="logModal" class="fixed inset-0 flex justify-center items-center hidden z-50">
+            <div class="bg-[#fafafa] rounded-md border border-[#CFCFCF] shadow-2xl p-6 w-1/3">
+                <h2 class="text-lg font-semibold text-i-header border-b" id="logModalTitle">Modal Title</h2>
+                <p id="logModalContent" class="mt-2 text-i-link">This is the content of the modal window.</p>
+                <div class="mt-4 flex justify-end">
+                    <button id="closeLogModal" class="bg-[#F3F3F3] border border-i-link-light hover:bg-[#ebe9e9] transition-all ease px-4 py-2 rounded mr-2 text-i-link">Close</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Activate Modal Structure -->
+        <div id="activateModal" class="fixed inset-0 flex justify-center items-center hidden z-50">
+            <div class="bg-[#fafafa] rounded-md border border-[#CFCFCF] shadow-2xl p-6 w-1/3 z-50">
+                <h2 class="text-lg font-semibold text-i-header border-b" id="activateModalTitle">Modal Title</h2>
+                <p id="activateModalContent" class="mt-2 text-i-link">This is the content of the modal window.</p>
+                <div class="mt-4 flex justify-end">
+                    <button id="closeActivateModal" class="bg-[#F3F3F3] border border-i-link-light hover:bg-[#ebe9e9] transition-all ease px-4 py-2 rounded mr-2 text-i-link">Close</button>
+                    <button id="activateActivateModal" class="bg-[#F3F3F3] border border-i-link-light hover:bg-[#ebe9e9] transition-all ease text-white px-4 py-2 rounded mr-2 text-i-link">Activate Account</button>
+                    <button id="deleteActivateModal" class="bg-[#F3F3F3] border border-i-link-light hover:bg-[#ebe9e9] transition-all ease text-white px-4 py-2 rounded text-i-link">Delete Account</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Update Modal Structure -->
+        <div id="updateModal" class="fixed inset-0 flex justify-center items-center hidden z-50">
+            <div class="bg-[#fafafa] rounded-md border border-[#CFCFCF] shadow-2xl p-6 w-1/3 z-50">
+                <h2 class="text-lg font-semibold text-i-header border-b" id="updateModalTitle">Modal Title</h2>
+                <p id="updateModalContent" class="mt-2 text-i-link">This is the content of the modal window.</p>
+                <div class="mt-4 flex justify-end">
+                    <button id="closeUpdateModal" class="bg-[#F3F3F3] border border-i-link-light hover:bg-[#ebe9e9] transition-all ease px-4 py-2 rounded mr-2 text-i-link">Close</button>
+                    <button id="saveUpdateModal" class="bg-[#F3F3F3] border border-i-link-light hover:bg-[#ebe9e9] transition-all ease text-white px-4 py-2 rounded text-i-link">Update Account</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid sm:grid-cols-2 grid-col-1 gap-0 mt-4 sm:mt-0">
+            <div class="h-[82vh] w-full max-w-[650px] mx-auto border rounded-md border-i-link-light">
+                <div class="h-[50px] bg-[#fff] border-b rounded-t-md border-i-link-light flex items-center"> <!-- Header -->
+                    <p class="text-i-header pl-2" style="font-size: 20px; font-weight:600;">Intranet Logs</p>
+                </div>
+                <div id="table1" class="overflow-auto h-[calc(82vh-50px)] min-w-full border-b rounded-md border-[#CFCFCF]">
+                    <table class="w-full bg-white border-separate border-spacing-0 rounded-md sortable-table">
+                        <thead class="bg-i-bg" style="font-size: 14px;">
+                            <tr>
+                                <th class="py-1 px-4 text-left text-i-link border-r border-b border-[#CFCFCF]">Username</th>
+                                <th class="py-1 px-4 text-left text-i-link border-r border-b border-[#CFCFCF]">Action</th>
+                                <th class="py-1 px-4 text-left text-i-link border-r border-b border-[#CFCFCF]">IP Address</th>
+                                <th data-table-id="table1" class="py-1 px-4 text-left text-i-link border-b border-[#CFCFCF] cursor-pointer select-none" onclick="sortTableByColumn('table1', 3)">
+                                    <span>Timestamp</span>
+                                    <span class="sort-icon">&#9650;</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size: 12px;">
+                            {% for log in logs %}
+                            <tr class="hover:bg-i-bg transition-all ease cursor-pointer border-b border-[#CFCFCF] text-i-link cascade" style="animation-delay: {{ loop.index * 0.05 }}s;" onclick="openLogModal('{{ log.username }}', '{{ log.action }}', '{{ log.desc }}', '{{ log.ip_address }}', '{{ log.timestamp }}')">
+                                <td class="py-1 px-4 border-r border-b border-[#CFCFCF]">{{ log.username }}</td>
+                                <td class="py-1 px-4 border-r border-b border-[#CFCFCF]">{{ log.action }}</td>
+                                <td class="py-1 px-4 border-r border-b border-[#CFCFCF]">{{ log.ip_address }}</td>
+                                <td class="py-1 px-4 border-b border-[#CFCFCF]">{{ log.timestamp }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 mt-4 sm:mt-0 gap-4">
+                <div class="h-[40vh] w-full max-w-[650px] mx-auto border rounded-md border-i-link-light">
+                    <div class="h-[50px] bg-[#fff] border-b rounded-t-md border-i-link-light flex items-center"> <!-- Header -->
+                        <p class="text-i-header pl-2" style="font-size: 20px; font-weight:600;">Pending Activation Accounts</p>
+                    </div>
+                    <div class="overflow-auto h-[calc(40vh-50px)] min-w-full border-b rounded-md border-[#CFCFCF]">
+                        <table class="w-full bg-white border-separate border-spacing-0 rounded-md">
+                            <thead class="bg-i-bg" style="font-size: 14px;">
+                                <tr>
+                                    <th class="py-1 px-4 text-left text-i-link border-r border-b border-[#CFCFCF]">ID</th>
+                                    <th class="py-1 px-4 text-left text-i-link border-r border-b border-[#CFCFCF]">Username</th>
+                                    <th class="py-1 px-4 text-left text-i-link border-r border-b border-[#CFCFCF]">Name</th>
+                                    <th class="py-1 px-4 text-left text-i-link border-b border-[#CFCFCF]">Email</th>
+                                </tr>
+                            </thead>
+                            <tbody style="font-size: 12px;">
+                                {% for user in pusers %}
+                                <tr class="hover:bg-i-bg transition-all ease border-b cursor-pointer border-[#CFCFCF] text-i-link cascade" style="animation-delay: {{ loop.index * 0.05 }}s;" onclick="openActivateModal(this, '{{ user.id }}', '{{ user.username }}', '{{ user.name }}', '{{ user.email }}')">
+                                    <td class="py-1 px-4 border-r border-b border-[#CFCFCF]">{{ user.id }}</td>
+                                    <td class="py-1 px-4 border-r border-b border-[#CFCFCF]">{{ user.username }}</td>
+                                    <td class="py-1 px-4 border-r border-b border-[#CFCFCF]">{{ user.name }}</td>
+                                    <td class="py-1 px-4 border-b border-[#CFCFCF]">{{ user.email }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="h-[40vh] w-full max-w-[650px] mx-auto border rounded-md border-i-link-light">
+                    <div class="h-[50px] bg-[#fff] border-b rounded-t-md border-i-link-light flex items-center"> <!-- Header -->
+                        <p class="text-i-header pl-2" style="font-size: 20px; font-weight:600;">Manage Accounts</p>
+                    </div>
+                    <div id="table3" class="overflow-auto h-[calc(40vh-50px)] min-w-full border-b rounded-md border-[#CFCFCF]">
+                        <table class="w-full bg-white border-separate border-spacing-0 rounded-md sortable-table">
+                            <thead class="bg-i-bg" style="font-size: 14px;">
+                                <tr>
+                                    <th class="py-1 px-4 text-left text-i-link border-r border-b border-[#CFCFCF]">ID</th>
+                                    <th class="py-1 px-4 text-left text-i-link border-r border-b border-[#CFCFCF]">Username</th>
+                                    <th data-table-id="table3" class="py-1 px-4 text-left text-i-link border-r border-b border-[#CFCFCF] cursor-pointer select-none" onclick="sortTableByColumn('table3', 2)">
+                                        <span>Perm Level</span>
+                                        <span class="sort-icon">&#9650;</span>
+                                    </th>
+                                    <th class="py-1 px-4 text-left text-i-link border-r border-b border-[#CFCFCF]">Name</th>
+                                    <th class="py-1 px-4 text-left text-i-link border-b border-[#CFCFCF]">Email</th>
+                                </tr>
+                            </thead>
+                            <tbody style="font-size: 12px;" id="activated_users_table">
+                                {% for user in users %}
+                                <tr class="hover:bg-i-bg transition-all ease border-b cursor-pointer border-[#CFCFCF] text-i-link cascade" style="animation-delay: {{ loop.index * 0.05 }}s;" onclick="openUpdateModal(this, '{{ user.id }}', '{{ user.username }}', '{{ user.permSet }}', '{{ user.name }}', '{{ user.email }}', '{{ user.departmentAdmin }}', '{{ user.active }}')">
+                                    <td class="py-1 px-4 border-r border-b border-[#CFCFCF]">{{ user.id }}</td>
+                                    <td class="py-1 px-4 border-r border-b border-[#CFCFCF]">{{ user.username }}</td>
+                                    <td class="py-1 px-4 border-r border-b border-[#CFCFCF]">{{ user.permSet }}</td>
+                                    <td class="py-1 px-4 border-r border-b border-[#CFCFCF]">{{ user.name }}</td>
+                                    <td class="py-1 px-4 border-b border-[#CFCFCF]">{{ user.email }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div> 
+            
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+    // View Log Modal
+
+    const logModal = document.getElementById("logModal");
+    const logModalTitle = document.getElementById("logModalTitle");
+    const logModalContent = document.getElementById("logModalContent");
+    const openLogModalButton = document.getElementById("openLogModal");
+    const closeLogModalButton = document.getElementById("closeLogModal");
+
+    // Function to open the modal and populate it
+    window.openLogModal = function(username, action, desc, ipAddress, timestamp) {
+        logModalTitle.textContent = "Log Details"; // Set modal title or adjust as needed
+        logModalContent.innerHTML = `<strong>User:</strong> ${username}<br>
+                                    <strong>Action:</strong> ${action}<br>
+                                    <strong>IP Address:</strong> ${ipAddress}<br>
+                                    <strong>Timestamp:</strong> ${timestamp}<br>
+                                    <strong class="mt-2">Details:</strong><br>
+                                    <textarea rows="5" cols="50" readonly style="width: 100%; resize: vertical;" class="px-2 py-1 border rounded-md border-i-link-light">${desc}</textarea>`; // Set modal content
+        logModal.classList.remove("hidden"); // Show modal
+    };
+
+    // Function to close the modal
+    closeLogModalButton.onclick = function () {
+        logModal.classList.add("hidden");
+    };
+
+    // Activate Account Modal
+
+    const activateModal = document.getElementById("activateModal");
+    const activateModalTitle = document.getElementById("activateModalTitle");
+    const activateModalContent = document.getElementById("activateModalContent");
+    const openActivateModalButton = document.getElementById("openActivateModal");
+    const closeActivateModalButton = document.getElementById("closeActivateModal");
+    const activateActivateModalButton = document.getElementById("activateActivateModal");
+
+    // Function to open the modal and populate it
+    window.openActivateModal = function(row, user_id, username, name, email) {
+        activateModalTitle.textContent = "Activate Account"; // Set modal title or adjust as needed
+        activateModalContent.innerHTML = `<strong>User ID:</strong> ${user_id}<br>
+                                        <strong>Username:</strong> ${username}<br>
+                                        <strong>Full Name:</strong> ${name}<br>
+                                        <strong>Email:</strong> ${email}`; // Set modal content
+        activateModal.classList.remove("hidden"); // Show modal
+
+        activateActivateModalButton.onclick = function () {
+            activateUser(user_id, row);
+        }
+    };
+
+    // Function to close the modal
+    closeActivateModalButton.onclick = function () {
+        activateModal.classList.add("hidden");
+    };
+
+    // Update Account Modal
+
+    const updateModal = document.getElementById("updateModal");
+    const updateModalTitle = document.getElementById("updateModalTitle");
+    const updateModalContent = document.getElementById("updateModalContent");
+    const openUpdateModalButton = document.getElementById("openUpdateModal");
+    const closeUpdateModalButton = document.getElementById("closeUpdateModal");
+    const saveAccountModalButton = document.getElementById("saveUpdateModal");
+
+    // Function to open the modal and populate it
+    window.openUpdateModal = function(row, user_id, username, permSet, name, email, departmentAdmin, active) {
+        updateModalTitle.textContent = `Update Account: ${username}`; // Set modal title or adjust as needed
+        updateModalContent.innerHTML = `
+                <strong>User ID:</strong> ${user_id}<br>
+                <strong>Username:</strong> ${username}<br>
+                <div class="flex items-center">
+                    <strong>Permissions:</strong>
+                    <select id="permissionsDropdown" class="border ml-2 rounded">
+                        <option value="GUEST" ${permSet === "GUEST" ? "selected" : ""}>Guest</option>
+                        <option value="SUPPORT" ${permSet === "SUPPORT" ? "selected" : ""}>Support</option>
+                        <option value="TANK" ${permSet === "TANK" ? "selected" : ""}>Tank</option>
+                        <option value="GENERAL" ${permSet === "GENERAL" ? "selected" : ""}>General</option>
+                        <option value="SALES" ${permSet === "SALES" ? "selected" : ""}>Sales</option>
+                        <option value="ADMIN" ${permSet === "ADMIN" ? "selected" : ""}>Admin</option>
+                    </select>
+                    <div id="additionalPerm" class="ml-2 hidden">
+                        <input type="checkbox" id="departmentAdminBox">
+                        <label for="departmentAdminBox">Department Admin</label>
+                    </div>
+                </div>
+                <strong>Full Name:</strong> ${name}<br>
+                <strong>Email:</strong> ${email}<br>
+                <div class="flex items-center">
+                    <strong class="mr-2">Active Account:</strong>
+                    <input type="checkbox" id="activeAccount">
+                </div>`; // Set modal content
+        updateModal.classList.remove("hidden"); // Show modal
+
+        const permissionsDropdown = document.getElementById("permissionsDropdown");
+        const departmentAdminBox = document.getElementById("departmentAdminBox");
+        const additionalPerm = document.getElementById("additionalPerm");
+        const activeAccount = document.getElementById("activeAccount");
+        
+        activeAccount.checked = active;
+
+        if (permSet !== "ADMIN" && permSet !== "GUEST") {
+            additionalPerm.classList.remove("hidden");
+            if (permissionsDropdown.value === permSet && departmentAdmin == 1) {
+                departmentAdminBox.checked = true; 
+            }
+        }
+
+        permissionsDropdown.addEventListener("change", function() {
+            if (permissionsDropdown.value === "ADMIN" || permissionsDropdown.value === "GUEST") {
+                additionalPerm.classList.add("hidden");
+                departmentAdminBox.checked = false;
+            } else {
+                additionalPerm.classList.remove("hidden");
+                departmentAdminBox.checked = (permissionsDropdown.value === permSet) && (departmentAdmin == 1);
+            }
+        })
+
+        if (additionalPerm.value !== "ADMIN") {
+            departmentAdminBox.classList.remove("hidden");
+        }
+
+        saveAccountModalButton.onclick = function () {
+            const nPermSet = permissionsDropdown.value;
+            const nDeptAdmin = departmentAdminBox.checked;
+            const nActive = activeAccount.checked;
+
+            updateUser(user_id, nPermSet, nDeptAdmin, nActive);
+        }
+    };
+
+    // Function to close the modal
+    closeUpdateModalButton.onclick = function () {
+        updateModal.classList.add("hidden");
+    };
+
+    function activateUser(userId, row) {
+        fetch(`/activate_user`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: userId })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            alert('User activated successfully!');
+            activateModal.classList.add("hidden");
+            location.reload();
+        })
+        .catch(error => {
+            alert('Failed to activate user. Please try again.');
+        });
+    }
+
+    function updateUser(userId, permSet, departmentAdmin, isActive) {
+        fetch(`/update_user`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: userId, permSet: permSet, dptAdmin: departmentAdmin, isActive: isActive })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            alert('User updated successfully!');
+            updateModal.classList.add("hidden");
+            location.reload();
+        })
+        .catch(error => {
+            alert('Failed to update user. Please try again.');
+        });
+    }
+
+    let sortDirections = {};  // Track sort directions per table and column
+
+    window.sortTableByColumn = function(tableId, columnIndex) {
+        const table = document.getElementById(tableId).querySelector("table.sortable-table");
+        const rowsArray = Array.from(table.querySelectorAll("tbody tr"));
+
+        // Toggle the sorting direction
+        if (!sortDirections[tableId]) sortDirections[tableId] = {};
+        sortDirections[tableId][columnIndex] = !sortDirections[tableId][columnIndex];
+
+        // Determine the sorting function based on the column type
+        const compareFn = (rowA, rowB) => {
+            let cellA = rowA.children[columnIndex].textContent.trim();
+            let cellB = rowB.children[columnIndex].textContent.trim();
+
+            // Adjust for date sorting if needed
+            if (columnIndex === 3) {
+                cellA = new Date(cellA.split('/').reverse().join('-'));
+                cellB = new Date(cellB.split('/').reverse().join('-'));
+            }
+
+            // Adjust for severity if needed
+            if (columnIndex === 2) {
+                const permissionOrder = { 'GUEST': 1, 'SUPPORT': 2, 'TANK': 3, 'GENERAL': 4, 'SALES': 5, 'ADMIN': 6 };
+                cellA = permissionOrder[cellA] || 0;
+                cellB = permissionOrder[cellB] || 0;
+            }
+
+            return sortDirections[tableId][columnIndex]
+                ? cellA > cellB ? 1 : -1
+                : cellA < cellB ? 1 : -1;
+        };
+
+        // Sort rows and append them back to the table body
+        rowsArray.sort(compareFn);
+        rowsArray.forEach(row => table.querySelector("tbody").appendChild(row));
+
+        // Update header icon to indicate sort direction
+        const headers = table.querySelectorAll("th");
+        headers.forEach((header, idx) => {
+            header.classList.remove("sorted-asc", "sorted-desc");
+            if (idx === columnIndex) {
+                header.classList.add(sortDirections[tableId][columnIndex] ? "sorted-asc" : "sorted-desc");
+            }
+        });
+    }
+});
+</script>
+{% endblock %}
