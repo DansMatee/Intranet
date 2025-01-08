@@ -7,10 +7,10 @@ def create_app():
     app = Flask(__name__)
 
     app.config.from_mapping(
-        SECRET_KEY='dev',
-        MYSQL_HOST='localhost',
-        MYSQL_USER='root',
-        MYSQL_PASSWORD='YtOtY00f=>tr',
+        SECRET_KEY='DEV',
+        MYSQL_HOST='LOCALHOST',
+        MYSQL_USER='USER',
+        MYSQL_PASSWORD='PASSWORD',
         MYSQL_DB='intranet'
     )
 
