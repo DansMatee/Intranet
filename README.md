@@ -1,6 +1,5 @@
 # Intranet
 An intranet built for a small company to display department specific dashboards for easy viewing of information.
-Screenshots yet to be taken.
 
 ## Languages
 Main functionality is developed with Flask (Python), utilising Flasks render template to serve the frontend.
@@ -24,8 +23,47 @@ Styling was done with tailwindcss, with responsiveness in mind.
 1. Clone the repository into a folder.
 2. Create a virtual env with python ```python -m venv .venv```
 3. Activate the virtual env ```.venv\Scripts\Activate```
-4. Install the required packages ```pip install Flask flask-mysqldb```
-5. Configure database connection in __init__.py and execute the intranet.sql file in a database viewer (WIP)
+4. Install the required packages ```pip install -r requirements.txt```
+5. Configure database connection in __init__.py and execute the database.sql file in a database viewer
 6. Run flask ```flask --app __init__ run```
 7. Navigate to http://localhost:5000/
-8. Enjoy :)
+
+## Screenshots
+- Department Dashboard <br>
+![image](https://github.com/user-attachments/assets/d8d91b2b-0927-477e-b0e0-c10ad9702bfb)
+
+- Adding a new link to Quick Links <br>
+![image](https://github.com/user-attachments/assets/dc24f876-021f-47b5-9ede-e85f1cb017a7)
+
+- Job Attention Board Item <br>
+![image](https://github.com/user-attachments/assets/12fa71d3-066b-4e8e-8af0-b3f9470079fb)
+
+- Adding a new job to the Attention Board <br>
+![image](https://github.com/user-attachments/assets/f235f8d2-34be-4e54-8c3e-5ae3465f4c2f)
+
+- Notice Board Item <br>
+![image](https://github.com/user-attachments/assets/e7a9dbf6-db51-4b80-ac70-6b2b4764771d)
+
+- Department Overview <br>
+![image](https://github.com/user-attachments/assets/9c364e6f-a9c3-4275-bcd0-da08d01c6323)
+
+- Admin Panel Dashboard <br>
+![image](https://github.com/user-attachments/assets/8f6f887d-fd8f-42c3-a600-ee5a740169ca)
+
+- Log Item <br>
+![image](https://github.com/user-attachments/assets/7b40acba-0c8d-4c03-a650-ff8ba164d7e7)
+
+- Activate Account Item <br>
+![image](https://github.com/user-attachments/assets/6e9687c2-4a6c-4289-8de2-9be8021aa7ca)
+
+- Manage Account Item <br>
+![image](https://github.com/user-attachments/assets/1d65d92b-b1ad-4f0e-938b-5b8a9655c7cd)
+
+
+
+
+
+
+
+
+
